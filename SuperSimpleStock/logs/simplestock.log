@@ -2,3 +2,7 @@
 2017-04-05 12:07:18,094 [main] DEBUG TextFileProcesserImpl - Inside TextFileProcesserImpl processInputFile() Method -- Start
 2017-04-05 12:07:18,191 [main] DEBUG TextFileProcesserImpl - Inside TextFileProcesserImpl processInputFile() Method -- End
 2017-04-05 12:07:18,206 [main] DEBUG SuperStockApp - SuperStockApp Application Main Method -- End
+2017-04-05 13:38:05,148 [main] DEBUG SuperStockApp - SuperStockApp Application Main Method -- Start
+2017-04-05 13:38:05,151 [main] DEBUG TextFileProcesserImpl - Inside TextFileProcesserImpl processInputFile() Method -- Start
+2017-04-05 13:38:05,290 [main] DEBUG TextFileProcesserImpl - Inside TextFileProcesserImpl processInputFile() Method -- End
+2017-04-05 13:38:05,315 [main] DEBUG SuperStockApp - SuperStockApp Application Main Method -- End
