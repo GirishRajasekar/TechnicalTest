@@ -190,7 +190,7 @@ public class TextFileProcesserImplTest {
 	}
 	
 	@Test
-	public void testForPopulateTradeTotalAmtInUSDWhenAgreedFxIsZero() throws SuperStockExcpetion {
+	public void testWhenAgreedFxIsZero() throws SuperStockExcpetion {
 		String[] tradeArray = {"JP","B","0","AED","04 Apr 2017","04 Apr 2017","100","200"};
 		Trade tarde =txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
 		assertEquals(0, tarde.getTotalTradeAmount(),.0002);
@@ -198,15 +198,64 @@ public class TextFileProcesserImplTest {
 	
 	
 	@Test
-	public void testForPopulateTradeTotalAmtInUSDWhenUnitIsZero() throws SuperStockExcpetion {
+	public void testWhenUnitIsZero() throws SuperStockExcpetion {
 		String[] tradeArray = {"JP","B","0.50","AED","04 Apr 2017","04 Apr 2017","0","200"};
 		Trade tarde =txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
 		assertEquals(0, tarde.getTotalTradeAmount(),.0002);
 	}
 	
 	@Test
-	public void testForPopulateTradeTotalAmtInUSDWhenPriceIsZero() throws SuperStockExcpetion {
+	public void testWhenPriceIsZero() throws SuperStockExcpetion {
 		String[] tradeArray = {"JP","B","0.50","AED","04 Apr 2017","04 Apr 2017","100","0"};
+		Trade tarde =txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		assertEquals(0, tarde.getTotalTradeAmount(),.0002);
+	}
+	
+	@Test
+	public void testWhenAgreedFxIsNegative() throws SuperStockExcpetion {
+		String[] tradeArray = {"JP","B","-0.50","AED","04 Apr 2017","04 Apr 2017","100","200"};
+		Trade tarde =txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		assertEquals(0, tarde.getTotalTradeAmount(),.0002);
+	}
+	
+	@Test
+	public void testWhenUnitIsNegative() throws SuperStockExcpetion {
+		String[] tradeArray = {"JP","B","0.50","AED","04 Apr 2017","04 Apr 2017","-100","200"};
+		Trade tarde =txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		assertEquals(0, tarde.getTotalTradeAmount(),.0002);
+	}
+	
+	@Test
+	public void testWhenPriceIsNegative() throws SuperStockExcpetion {
+		String[] tradeArray = {"JP","B","0.50","AED","04 Apr 2017","04 Apr 2017","100","-200"};
+		Trade tarde =txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		assertEquals(0, tarde.getTotalTradeAmount(),.0002);
+	}
+	
+	@Test
+	public void testWhenAgreeFxAndUnitIsNegative() throws SuperStockExcpetion {
+		String[] tradeArray = {"JP","B","-0.50","AED","04 Apr 2017","04 Apr 2017","-100","200"};
+		Trade tarde =txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		assertEquals(0, tarde.getTotalTradeAmount(),.0002);
+	}
+	
+	@Test
+	public void testWhenAgreeFxAndPriceIsNegative() throws SuperStockExcpetion {
+		String[] tradeArray = {"JP","B","-0.50","AED","04 Apr 2017","04 Apr 2017","100","-200"};
+		Trade tarde =txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		assertEquals(0, tarde.getTotalTradeAmount(),.0002);
+	}
+	
+	@Test
+	public void testWhenUnitAndPriceIsNegative() throws SuperStockExcpetion {
+		String[] tradeArray = {"JP","B","0.50","AED","04 Apr 2017","04 Apr 2017","-100","-200"};
+		Trade tarde =txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		assertEquals(0, tarde.getTotalTradeAmount(),.0002);
+	}
+	
+	@Test
+	public void testWhenAgreeFxUnitAndPriceIsNegative() throws SuperStockExcpetion {
+		String[] tradeArray = {"JP","B","-1","AED","04 Apr 2017","04 Apr 2017","-100","-200"};
 		Trade tarde =txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
 		assertEquals(0, tarde.getTotalTradeAmount(),.0002);
 	}

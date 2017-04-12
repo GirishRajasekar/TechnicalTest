@@ -173,8 +173,10 @@ public class TextFileProcesserImpl implements FileProcesser {
 	 */
 	private double calcuateTotalTradeAmt(Trade trade) {
 		double totalTradeAmt = 0;
-		totalTradeAmt = trade.getPricePerUnit() * trade.getAgreedFx()
-				* trade.getUnits();
+		if(trade.getPricePerUnit() > 0 && trade.getAgreedFx() > 0 && trade.getUnits() > 0){
+			totalTradeAmt = trade.getPricePerUnit() * trade.getAgreedFx()
+					* trade.getUnits();
+		}
 		return totalTradeAmt;
 	}
 	
