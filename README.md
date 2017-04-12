@@ -1,6 +1,5 @@
 # TechnicalTest
 
-
 The problem
 
 Sample data represents the instructions sent by various clients to JP Morgan to execute in the international market.
@@ -36,7 +35,7 @@ Solution
      seperatley and put in map and set in the report bean.
   5) Once ReportBean is got it passed to displayReport method in GenerateReportHelper.Java where its looped through each map 
      in the report bean and displayed to the user on the console.
-  6) Junit for each testable methods in TextFileProcessor.java,WeekendDateConverterImpl.java and  GenerateReportHelper.java is been
+  6) Junit for each testable methods in TextFileProcessor.java,WeekendDateConverterImpl.java and  GenerateReportHelper.java has been
      added and tested.
      
     
