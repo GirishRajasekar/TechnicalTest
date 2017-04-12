@@ -164,6 +164,159 @@ public class TextFileProcesserImplTest {
 		}
 	}
 	
+
+	@Test
+	public void testForCurrencyPassingSapce(){
+		String[] tradeArray = {"JP","B","0.50"," ","04 Apr 2017","04 Apr 2017","100","200"};
+		try{
+			txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		}catch (SuperStockExcpetion e) {
+			assertEquals("Currency Field is Invalid",e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testForEntityFieldPassingSpace()  {
+		String[] tradeArray = {" ","B","0.50","GBP","04 Apr 2017","04 Apr 2017","100","200"};
+		try {
+			txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		} catch (SuperStockExcpetion e) {
+			assertEquals("Entity Field is invalid",e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testForInstrutionFieldPassingSpace()  {
+		String[] tradeArray = {"JP"," ","0.50","GBP","04 Apr 2017","04 Apr 2017","100","200"};
+		try {
+			txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		} catch (SuperStockExcpetion e) {
+			assertEquals("Instruction Field is invalid",e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testForAgreedFxFieldPassingSpace()  {
+		String[] tradeArray = {"JP","B"," ","GBP","04 Apr 2017","04 Apr 2017","100","200"};
+		try {
+			txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		} catch (SuperStockExcpetion e) {
+			assertEquals("AgreedFX Field is invalid",e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testForInstrutionDateFieldPassingSpace()  {
+		String[] tradeArray = {"JP","B","0.50","GBP"," ","04 Apr 2017","100","200"};
+		try {
+			txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		} catch (SuperStockExcpetion e) {
+			assertEquals("InstructionDate Field is invalid",e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testForSettlementDateFieldPassingSpace()  {
+		String[] tradeArray = {"JP","B","0.50","GBP","04 Apr 2017"," ","100","200"};
+		try {
+			txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		} catch (SuperStockExcpetion e) {
+			assertEquals("SettlementDate Field is invalid",e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testForUnitsFieldPassingSpace()  {
+		String[] tradeArray = {"JP","B","0.50","GBP","04 Apr 2017","04 Apr 2017"," ","200"};
+		try {
+			txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		} catch (SuperStockExcpetion e) {
+			assertEquals("Units Field is invalid",e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testForPricePerUnitFieldPassingSpace()  {
+		String[] tradeArray = {"JP","B","0.50","GBP","04 Apr 2017","04 Apr 2017","100",""};
+		try {
+			txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		} catch (SuperStockExcpetion e) {
+			assertEquals("PricePerUnit Field is Invalid",e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testForCurrencyPassingNull(){
+		String[] tradeArray = {"JP","B","0.50","null","04 Apr 2017","04 Apr 2017","100","200"};
+		try{
+			txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		}catch (SuperStockExcpetion e) {
+			assertEquals("Currency Field is Invalid",e.getMessage());
+		}
+	}
+	
+	
+	@Test
+	public void testForInstrutionFieldPassingNull()  {
+		String[] tradeArray = {"JP","null","0.50","GBP","04 Apr 2017","04 Apr 2017","100","200"};
+		try {
+			txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		} catch (SuperStockExcpetion e) {
+			assertEquals("Instruction Field is invalid",e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testForAgreedFxFieldPassingNull()  {
+		String[] tradeArray = {"JP","B","null","GBP","04 Apr 2017","04 Apr 2017","100","200"};
+		try {
+			txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		} catch (SuperStockExcpetion e) {
+			assertEquals("AgreedFX Field is invalid",e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testForInstrutionDateFieldPassingNull()  {
+		String[] tradeArray = {"JP","B","0.50","GBP","null","04 Apr 2017","100","200"};
+		try {
+			txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		} catch (SuperStockExcpetion e) {
+			assertEquals("InstructionDate Field is invalid",e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testForSettlementDateFieldPassingNull()  {
+		String[] tradeArray = {"JP","B","0.50","GBP","04 Apr 2017","null","100","200"};
+		try {
+			txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		} catch (SuperStockExcpetion e) {
+			assertEquals("SettlementDate Field is invalid",e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testForUnitsFieldPassingNull()  {
+		String[] tradeArray = {"JP","B","0.50","GBP","04 Apr 2017","04 Apr 2017","null","200"};
+		try {
+			txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		} catch (SuperStockExcpetion e) {
+			assertEquals("Units Field is invalid",e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testForPricePerUnitFieldPassingNull()  {
+		String[] tradeArray = {"JP","B","0.50","GBP","04 Apr 2017","04 Apr 2017","100","null"};
+		try {
+			txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		} catch (SuperStockExcpetion e) {
+			assertEquals("PricePerUnit Field is Invalid",e.getMessage());
+		}
+	}
+	
+	
 	@Test
 	public void testForPopulateTradeWithInvalidCurrency()  {
 		String[] tradeArray = {"JP","B","0.50","GBPS","04 Apr 2017","04 Apr 2017","100","200"};

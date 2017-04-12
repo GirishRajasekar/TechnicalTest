@@ -13,6 +13,7 @@ import com.jpmorgan.supersimple.stock.api.WeekendDateConverter;
 import com.jpmorgan.supersimple.stock.bean.Trade;
 import com.jpmorgan.supersimple.stock.exception.SuperStockExcpetion;
 import com.jpmorgan.supersimple.stock.util.JPConstants;
+import com.jpmorgan.supersimple.stock.util.SuperStockUtil;
 
 /**
  * @author Girish Rajasekar
@@ -108,42 +109,42 @@ public class TextFileProcesserImpl implements FileProcesser {
 
 				String currency = tradeArray[3];
 				
-				if(tradeArray[0]!=null && !tradeArray[0].isEmpty()){
+				if(!SuperStockUtil.isNullOrEmpty(tradeArray[0])){
 					trade.setEntity(tradeArray[0]);
 				}else{
 					throw new SuperStockExcpetion("Entity Field is invalid");
 				}
-				if(tradeArray[1]!=null && !tradeArray[1].isEmpty()){
+				if(!SuperStockUtil.isNullOrEmpty(tradeArray[1])){
 					trade.setInstruction(tradeArray[1]);
 				}else{
 					throw new SuperStockExcpetion("Instruction Field is invalid");
 				}
-				if(currency!=null && !currency.isEmpty() && currency.length() == 3) {
+				if(!SuperStockUtil.isNullOrEmpty(currency) && currency.length() == 3) {
 					trade.setCurrency(currency);
 				}else{
 					throw new SuperStockExcpetion("Currency Field is Invalid");
 				}
-				if(tradeArray[4]!=null && !tradeArray[4].isEmpty()){
+				if(!SuperStockUtil.isNullOrEmpty(tradeArray[4])){
 					trade.setInstructionDate(tradeArray[4]);
 				}else{
 					throw new SuperStockExcpetion("InstructionDate Field is invalid");
 				}
-				if(tradeArray[5]!=null && !tradeArray[5].isEmpty()){
+				if(!SuperStockUtil.isNullOrEmpty(tradeArray[5])){
 					trade.setSettlementDate(tradeArray[5]);
 				}else{
 					throw new SuperStockExcpetion("SettlementDate Field is invalid");
 				}
-				if(tradeArray[2]!=null && !tradeArray[2].isEmpty()){
+				if(!SuperStockUtil.isNullOrEmpty(tradeArray[2])){
 					trade.setAgreedFx(Double.parseDouble(tradeArray[2]));
 				}else{
 					throw new SuperStockExcpetion("AgreedFX Field is invalid");
 				}
-				if(tradeArray[6]!=null && !tradeArray[6].isEmpty()){
+				if(!SuperStockUtil.isNullOrEmpty(tradeArray[6])){
 					trade.setUnits(Integer.parseInt(tradeArray[6]));
 				}else{
 					throw new SuperStockExcpetion("Units Field is invalid");
 				}
-				if(tradeArray[7]!=null && !tradeArray[7].isEmpty()){
+				if(!SuperStockUtil.isNullOrEmpty(tradeArray[7])){
 					trade.setPricePerUnit(Double.parseDouble(tradeArray[7]));
 				}else{
 					throw new SuperStockExcpetion("PricePerUnit Field is Invalid");
