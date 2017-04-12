@@ -1,10 +1,9 @@
 package com.jpmorgan.supersimple.stock.api;
 
-import java.time.format.DateTimeParseException;
-
 import com.jpmorgan.supersimple.stock.bean.Trade;
+import com.jpmorgan.supersimple.stock.exception.SuperStockExcpetion;
 
 public interface WeekendDateConverter {
 
-	public Trade incrementDaysExcludingWeekends(Trade trade) throws DateTimeParseException;
+	public Trade incrementDaysExcludingWeekends(Trade trade) throws SuperStockExcpetion;
 }

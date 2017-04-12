@@ -1,7 +1,5 @@
 package com.jpmorgan.supersimple.stock.app;
 
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -9,6 +7,7 @@ import org.apache.log4j.Logger;
 import com.jpmorgan.supersimple.stock.api.FileProcesser;
 import com.jpmorgan.supersimple.stock.bean.Report;
 import com.jpmorgan.supersimple.stock.bean.Trade;
+import com.jpmorgan.supersimple.stock.exception.SuperStockExcpetion;
 import com.jpmorgan.supersimple.stock.helper.GenerateReportHelper;
 import com.jpmorgan.supersimple.stock.impl.TextFileProcesserImpl;
 
@@ -47,8 +46,8 @@ public class SuperStockApp {
 				logger.debug("Issue While Processing the txt file");
 			}
 
-		} catch (IOException | ParseException e) {
-			logger.error("Expception while reading the file", e);
+		} catch (SuperStockExcpetion e) {
+			logger.error("Expception while reading the Input file", e);
 		}
 		logger.debug("SuperStockApp Application Main Method -- End");
 	}

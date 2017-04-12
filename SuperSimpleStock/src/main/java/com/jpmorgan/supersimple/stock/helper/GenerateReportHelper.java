@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import com.jpmorgan.supersimple.stock.bean.Report;
 import com.jpmorgan.supersimple.stock.bean.Trade;
+import com.jpmorgan.supersimple.stock.util.DateComparator;
 import com.jpmorgan.supersimple.stock.util.JPConstants;
 
 /*
@@ -38,9 +39,9 @@ public class GenerateReportHelper {
 		
 		Report reportBean = new Report();
 		
-		//Using treemap so that it will be sorted based on settlement date which is the key.
-		Map<String, Double> buySettlementDateMap = new TreeMap<>();
-		Map<String, Double> sellSettlementDateMap = new TreeMap<>();
+		//Using treemap sort settlement date which is the key.
+		Map<String, Double> buySettlementDateMap = new TreeMap<>(new DateComparator());
+		Map<String, Double> sellSettlementDateMap = new TreeMap<>(new DateComparator());
 		
 		//Using hashmap and then we can sort based on value in the map using comparator
 		Map<String, Double> buyEntityMap = new HashMap<>();
@@ -181,7 +182,7 @@ public class GenerateReportHelper {
 	 * @param map
 	 * @return map
 	 */
-	private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(
+	public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(
 			Map<K, V> map) {
 		
 		map = map

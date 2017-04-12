@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.jpmorgan.supersimple.stock.api.WeekendDateConverter;
 import com.jpmorgan.supersimple.stock.bean.Trade;
+import com.jpmorgan.supersimple.stock.exception.SuperStockExcpetion;
 import com.jpmorgan.supersimple.stock.util.JPConstants;
 
 /*
@@ -26,10 +27,13 @@ public class WeekendDateConverterImpl implements WeekendDateConverter{
 	 * @param trade
 	 * 
 	 * @return trade
+	 * 
+	 * @throws SuperStockExcpetion
 	 */
 	@Override
-	public Trade incrementDaysExcludingWeekends(Trade trade) throws DateTimeParseException {
+	public Trade incrementDaysExcludingWeekends(Trade trade)  throws SuperStockExcpetion {
 		
+		try{
 		//Creating the formatter based on the settlement date format type in the input file
 		DateTimeFormatter formatter=DateTimeFormatter.ofPattern(JPConstants.TRADE_DATE_FORMAT);
 		
@@ -42,10 +46,12 @@ public class WeekendDateConverterImpl implements WeekendDateConverter{
         	//Increment the date by 1 if it's falls on the weekend and check again
         	date =  date.plusDays(1);
         }
-        
         //Converting and setting the settlement date object after the weekend check is done
         trade.setSettlementDate(date.format(formatter));
         
+		}catch(DateTimeParseException ex){
+			throw new SuperStockExcpetion("Error While Parsing Settlement Date",ex);
+		}
         //Returning trade object
    		return trade;
 	}

@@ -3,8 +3,6 @@ package com.jpmorgan.supersimple.stock.impl;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +11,7 @@ import org.apache.log4j.Logger;
 import com.jpmorgan.supersimple.stock.api.FileProcesser;
 import com.jpmorgan.supersimple.stock.api.WeekendDateConverter;
 import com.jpmorgan.supersimple.stock.bean.Trade;
+import com.jpmorgan.supersimple.stock.exception.SuperStockExcpetion;
 import com.jpmorgan.supersimple.stock.util.JPConstants;
 
 /**
@@ -34,52 +33,49 @@ public class TextFileProcesserImpl implements FileProcesser {
 	 * 
 	 * @return List<Trade>
 	 * 
-	 * @throws IOException,ParseException
+	 * @throws SuperStockExcpetion
 	 */
 	@Override
-	public List<Trade> processInputFile() throws IOException, ParseException {
-		
+	public List<Trade> processInputFile() throws SuperStockExcpetion {
+
 		logger.debug("Inside TextFileProcesserImpl processInputFile() Method -- Start");
 
 		List<Trade> tradeList = new ArrayList<>();
 
-		FileReader fi = new FileReader(fileName);
-		BufferedReader br = new BufferedReader(fi);
-		WeekendDateConverter weekendDateConverter = new WeekendDateConverterImpl();
+		try (FileReader fr = new FileReader(fileName);
+				BufferedReader br = new BufferedReader(fr);) {
 
-		while (br != null) {
-			// Read each line from the text file
-			String line = br.readLine();
+			WeekendDateConverter weekendDateConverter = new WeekendDateConverterImpl();
 
-			if (line != null) {
-				// Split the line using delimiter /
-				String[] tradeArray = line.split(JPConstants.DELIMITER);
+			while (br != null) {
+				// Read each line from the text file
+				String line = br.readLine();
 
-				// Check if all the input elements are there in each line
-				if (tradeArray != null && tradeArray.length == 8) {
+				if (line != null) {
+					// Split the line using delimiter /
+					String[] tradeArray = line.split(JPConstants.DELIMITER);
 
-					// Calling method to fill tradeBean Object
-					Trade trade = populateTradeBean(tradeArray,weekendDateConverter);
-
-					//Before adding to the list checking if trade object is there
-					if (trade != null) {
+					try {
+						// Calling method to fill tradeBean Object
+						Trade trade = populateTradeBean(tradeArray,
+												weekendDateConverter);
 						tradeList.add(trade);
-					}else{
-						logger.debug("Invalid Input Format");
-						logger.debug(line);
+						
+					} catch (SuperStockExcpetion ex) {
+						logger.error(line, ex);
 					}
-				}else {
-					logger.debug("Invalid Data");
+
+				} else {
+					break;
 				}
-			} else {
-				break;
 			}
+
+		} catch (IOException ex) {
+			throw new SuperStockExcpetion("Issue in Reading The Input File", ex);
 		}
-		// Closing the buffer reader object.
-		br.close();
 		logger.debug("Inside TextFileProcesserImpl processInputFile() Method -- End");
-		
-		//Returning the list
+
+		// Returning the list
 		return tradeList;
 	}
 
@@ -89,46 +85,82 @@ public class TextFileProcesserImpl implements FileProcesser {
 	 * done.
 	 * 
 	 * @param tardeArray line from the text file is passed after splitting it
+	 * 
 	 * @param weekendDateConverter check if the date falls on the weekend if yes
-	 * 							   then changes the date to first weekday
+	 * then changes the date to first weekday
+	 * 
 	 * @param currencyConveter if incoming currency is not in USD convert to USD
 	 * 
 	 * @return trade
+	 * 
+	 * @throws SuperStockExcpetion
 	 */
 
 	public Trade populateTradeBean(String[] tradeArray,
-			WeekendDateConverter weekendDateConverter) {
-		
+			WeekendDateConverter weekendDateConverter)
+			throws SuperStockExcpetion {
+
 		Trade trade = new Trade();
 		try {
+		
+			// Checking for valid currency length
+			if (tradeArray != null && tradeArray.length == 8) {
 
-			trade.setEntity(tradeArray[0]);
-			trade.setInstruction(tradeArray[1]);
-			trade.setAgreedFx(Double.parseDouble(tradeArray[2]));
-			trade.setCurrency(tradeArray[3]);
-			trade.setInstructionDate(tradeArray[4]);
-			trade.setSettlementDate(tradeArray[5]);
-			trade.setUnits(Integer.parseInt(tradeArray[6]));
-			trade.setPricePerUnit(Double.parseDouble(tradeArray[7]));
-
-			// Calling method to calculate the total trade amount
-			trade.setTotalTradeAmount(calcuateTotalTradeAmt(trade));
-			
-			//Checking for valid currency length
-			if (!trade.getCurrency().isEmpty()
-					&& trade.getCurrency().length() == 3) {
+				String currency = tradeArray[3];
 				
+				if(tradeArray[0]!=null && !tradeArray[0].isEmpty()){
+					trade.setEntity(tradeArray[0]);
+				}else{
+					throw new SuperStockExcpetion("Entity Field is invalid");
+				}
+				if(tradeArray[1]!=null && !tradeArray[1].isEmpty()){
+					trade.setInstruction(tradeArray[1]);
+				}else{
+					throw new SuperStockExcpetion("Instruction Field is invalid");
+				}
+				if(currency!=null && !currency.isEmpty() && currency.length() == 3) {
+					trade.setCurrency(currency);
+				}else{
+					throw new SuperStockExcpetion("Currency Field is Invalid");
+				}
+				if(tradeArray[4]!=null && !tradeArray[4].isEmpty()){
+					trade.setInstructionDate(tradeArray[4]);
+				}else{
+					throw new SuperStockExcpetion("InstructionDate Field is invalid");
+				}
+				if(tradeArray[5]!=null && !tradeArray[5].isEmpty()){
+					trade.setSettlementDate(tradeArray[5]);
+				}else{
+					throw new SuperStockExcpetion("SettlementDate Field is invalid");
+				}
+				if(tradeArray[2]!=null && !tradeArray[2].isEmpty()){
+					trade.setAgreedFx(Double.parseDouble(tradeArray[2]));
+				}else{
+					throw new SuperStockExcpetion("AgreedFX Field is invalid");
+				}
+				if(tradeArray[6]!=null && !tradeArray[6].isEmpty()){
+					trade.setUnits(Integer.parseInt(tradeArray[6]));
+				}else{
+					throw new SuperStockExcpetion("Units Field is invalid");
+				}
+				if(tradeArray[7]!=null && !tradeArray[7].isEmpty()){
+					trade.setPricePerUnit(Double.parseDouble(tradeArray[7]));
+				}else{
+					throw new SuperStockExcpetion("PricePerUnit Field is Invalid");
+				}
+			
+				// Calling method to calculate the total trade amount
+				trade.setTotalTradeAmount(calcuateTotalTradeAmt(trade));
+
 				// Calling method to check for weekend and change accordingly
 				weekendDateConverter.incrementDaysExcludingWeekends(trade);
-			} else {
-				logger.debug("Invalid Data For Currency Field");
-				return null;
+				
+			}else{
+				throw new SuperStockExcpetion("Invalid Trade Input Line");
 			}
-		} catch (NumberFormatException | DateTimeParseException ex) {
-			trade = null;
-			logger.error("Error while parsing the input data", ex);
+		}catch (NumberFormatException ex) {
+			throw new SuperStockExcpetion("Error While Parsing String to Number",ex);
 		}
-		
 		return trade;
 	}
 
@@ -145,5 +177,6 @@ public class TextFileProcesserImpl implements FileProcesser {
 				* trade.getUnits();
 		return totalTradeAmt;
 	}
-
+	
+	
 }

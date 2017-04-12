@@ -2,13 +2,12 @@ package com.jpmorgan.supersimple.stock.impl;
 
 import static org.junit.Assert.*;
 
-import java.time.format.DateTimeParseException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.jpmorgan.supersimple.stock.bean.Trade;
+import com.jpmorgan.supersimple.stock.exception.SuperStockExcpetion;
 import com.jpmorgan.supersimple.stock.impl.WeekendDateConverterImpl;
 
 public class WeekendDateConverterImplTest {
@@ -25,7 +24,7 @@ public class WeekendDateConverterImplTest {
 	}
 	
 	@Test
-	public void testForValidDateWithOutWeekend() {
+	public void testForValidDateWithOutWeekend() throws SuperStockExcpetion{
 		trade.setSettlementDate("04 Apr 2017");
 		trade.setCurrency("AED");
 		Trade tradeAfterChange = weekendDateConverter.incrementDaysExcludingWeekends(trade);
@@ -33,7 +32,7 @@ public class WeekendDateConverterImplTest {
 	}
 	
 	@Test
-	public void testForFridayWeekendCcy() {
+	public void testForFridayWeekendCcy() throws SuperStockExcpetion{
 		trade.setSettlementDate("14 Apr 2017");
 		trade.setCurrency("AED");
 		Trade tradeAfterChange = weekendDateConverter.incrementDaysExcludingWeekends(trade);
@@ -41,7 +40,7 @@ public class WeekendDateConverterImplTest {
 	}
 	
 	@Test
-	public void testForSundayWeekendCcy() {
+	public void testForSundayWeekendCcy() throws SuperStockExcpetion{
 		trade.setSettlementDate("16 Apr 2017");
 		trade.setCurrency("GBP");
 		Trade tradeAfterChange = weekendDateConverter.incrementDaysExcludingWeekends(trade);
@@ -49,7 +48,7 @@ public class WeekendDateConverterImplTest {
 	}
 	
 	@Test
-	public void testForSundayWeekendEndOfMonthDateCcy() {
+	public void testForSundayWeekendEndOfMonthDateCcy() throws SuperStockExcpetion{
 		trade.setSettlementDate("30 Apr 2017");
 		trade.setCurrency("GBP");
 		Trade tradeAfterChange = weekendDateConverter.incrementDaysExcludingWeekends(trade);
@@ -57,19 +56,60 @@ public class WeekendDateConverterImplTest {
 	}
 	
 	@Test
-	public void testForSundayWeekendEndOfYearDateCcy() {
+	public void testForSundayWeekendEndOfYearDateCcy() throws SuperStockExcpetion{
 		trade.setSettlementDate("31 Dec 2016");
 		trade.setCurrency("USD");
 		Trade tradeAfterChange = weekendDateConverter.incrementDaysExcludingWeekends(trade);
 		assertEquals("02 Jan 2017", tradeAfterChange.getSettlementDate());
 	}
 	
+	//Negative test cases
 	
-	@Test(expected=DateTimeParseException.class)
+	@Test
 	public void testForDateFormatExceptin() {
-		trade.setSettlementDate("16 Apr 17");
-		trade.setCurrency("GBP");
-		weekendDateConverter.incrementDaysExcludingWeekends(trade);
+		try{
+			trade.setSettlementDate("16 Apr 17");
+			trade.setCurrency("GBP");
+			weekendDateConverter.incrementDaysExcludingWeekends(trade);
+		}catch (SuperStockExcpetion e) {
+			assertEquals("Error While Parsing Settlement Date",e.getMessage());
+		}
+		
+	}
+	
+	@Test
+	public void testForInvalidDateExceptin() {
+		try{
+			trade.setSettlementDate("2017-04-07");
+			trade.setCurrency("GBP");
+			weekendDateConverter.incrementDaysExcludingWeekends(trade);
+		}catch (SuperStockExcpetion e) {
+			assertEquals("Error While Parsing Settlement Date",e.getMessage());
+		}
+		
+	}
+	
+	@Test
+	public void testForDateWithoutYear() {
+		try{
+			trade.setSettlementDate("04 Apr");
+			trade.setCurrency("GBP");
+			weekendDateConverter.incrementDaysExcludingWeekends(trade);
+		}catch (SuperStockExcpetion e) {
+			assertEquals("Error While Parsing Settlement Date",e.getMessage());
+		}
+		
+	}
+	
+	@Test
+	public void testForEmptyDate() {
+		try{
+			trade.setSettlementDate("");
+			trade.setCurrency("GBP");
+			weekendDateConverter.incrementDaysExcludingWeekends(trade);
+		}catch (SuperStockExcpetion e) {
+			assertEquals("Error While Parsing Settlement Date",e.getMessage());
+		}
 		
 	}
 	
