@@ -13,6 +13,7 @@ import com.jpmorgan.supersimple.stock.bean.Trade;
 import com.jpmorgan.supersimple.stock.exception.SuperStockExcpetion;
 import com.jpmorgan.supersimple.stock.impl.TextFileProcesserImpl;
 import com.jpmorgan.supersimple.stock.impl.WeekendDateConverterImpl;
+import com.jpmorgan.supersimple.stock.util.JPConstants;
 
 public class TextFileProcesserImplTest {
 
@@ -411,6 +412,47 @@ public class TextFileProcesserImplTest {
 		String[] tradeArray = {"JP","B","-1","AED","04 Apr 2017","04 Apr 2017","-100","-200"};
 		Trade tarde =txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
 		assertEquals(0, tarde.getTotalTradeAmount(),.0002);
+	}
+	
+	@Test
+	public void tesWhenAgreedFxIsAlphaNumeric()  {
+		String[] tradeArray = {"JP","B","0.50AB","GBP","04 Apr 2017","04 Apr 2017","100","200"};
+		try {
+			txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		} catch (SuperStockExcpetion e) {
+			assertEquals("Error While Parsing String to Number",e.getMessage());
+		}
+	}
+	
+	@Test
+	public void tesWhenUnitIsAlphaNumeric()  {
+		String[] tradeArray = {"JP","B","0.50","GBP","04 Apr 2017","04 Apr 2017","100AB","200"};
+		try {
+			txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		} catch (SuperStockExcpetion e) {
+			assertEquals("Error While Parsing String to Number",e.getMessage());
+		}
+	}
+	
+	@Test
+	public void tesWhenPricePerUnitIsAlphaNumeric()  {
+		String[] tradeArray = {"JP","B","0.50","GBP","04 Apr 2017","04 Apr 2017","100","200AB"};
+		try {
+			txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		} catch (SuperStockExcpetion e) {
+			assertEquals("Error While Parsing String to Number",e.getMessage());
+		}
+	}
+	
+	@Test
+	public void tesForInvalidDelimiter()  {
+		String inpputLine = "MS-B-0.0-GBP-05 Apr 2017-06 Apr 2017-200-100.22";
+		String[] tradeArray = inpputLine.split(JPConstants.DELIMITER);
+		try {
+			txtFileProcessor.populateTradeBean(tradeArray, weekendDateConverter);
+		} catch (SuperStockExcpetion e) {
+			assertEquals("Invalid Trade Input Line",e.getMessage());
+		}
 	}
 	
 	@After
