@@ -154,7 +154,7 @@ public class TextFileProcesserImpl implements FileProcesser {
 				trade.setTotalTradeAmount(calcuateTotalTradeAmt(trade));
 
 				// Calling method to check for weekend and change accordingly
-				weekendDateConverter.incrementDaysExcludingWeekends(trade);
+				trade = weekendDateConverter.incrementDaysExcludingWeekends(trade);
 				
 			}else{
 				throw new SuperStockExcpetion("Invalid Trade Input Line");

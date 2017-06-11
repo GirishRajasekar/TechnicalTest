@@ -24,18 +24,17 @@ public class SuperStockApp {
 	public static void main(String[] args) {
 		
 		logger.debug("SuperStockApp Application Main Method -- Start");
-
-		// Creating fileProcessHelper Object
+		
 		FileProcesser fileProcesser = new TextFileProcesserImpl("trade.txt");
 
 		try {
 			// Calling method which helps in reading the text file
-			// and populating the trade bean object
+			// and populating the trade bean object and return the List of tradeBean.
 			List<Trade> tradeList = fileProcesser.processInputFile();
 
 			if (tradeList != null && tradeList.size() > 0) {
 
-				// Calling method to sort and populate to map
+				// Calling method to sort and populate 
 				Report reportBean = GenerateReportHelper
 						.generateReport(tradeList);
 

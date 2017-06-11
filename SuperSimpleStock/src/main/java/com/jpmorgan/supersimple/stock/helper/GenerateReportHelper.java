@@ -39,11 +39,11 @@ public class GenerateReportHelper {
 		
 		Report reportBean = new Report();
 		
-		//Using treemap sort settlement date which is the key.
+		//Using TreeMap to sort settlement date which is the key.
 		Map<String, Double> buySettlementDateMap = new TreeMap<>(new DateComparator());
 		Map<String, Double> sellSettlementDateMap = new TreeMap<>(new DateComparator());
 		
-		//Using hashmap and then we can sort based on value in the map using comparator
+		//Using HashMap and then we can sort based on value in the map using comparator
 		Map<String, Double> buyEntityMap = new HashMap<>();
 		Map<String, Double> sellEntityMap = new HashMap<>();
 
@@ -77,8 +77,8 @@ public class GenerateReportHelper {
 				//Populate incoming totalAmount for each entity
 				sellEntityMap = populateMapDetails(entity, entityBasedAmt, sellEntityMap);
 			}else{
-				logger.info("Instruction is not in proper order");
-				logger.info(trade.getInstruction());
+				logger.debug("Instruction is not in proper format");
+				logger.debug(trade.getInstruction());
 			}
 		}
 		
@@ -151,6 +151,7 @@ public class GenerateReportHelper {
 							+ JPConstants.USA_CURRENCY));
 		}
 		if(buyEntityMap!=null && buyEntityMap.size() > 0){
+			
 			//calling sort method for outgoing entities based on the totaltradeAmount in descending
 			buyEntityMap = GenerateReportHelper.sortByValue(buyEntityMap);
 			
@@ -163,6 +164,7 @@ public class GenerateReportHelper {
 		}
 		
 		if(sellEntityMap!=null && sellEntityMap.size() > 0){
+			
 			//calling sort method for incoming entities based on the totaltradeAmount in descending
 			sellEntityMap = GenerateReportHelper.sortByValue(sellEntityMap);
 			

@@ -1,9 +1,9 @@
 package com.jpmorgan.supersimple.stock.exception;
 
 /*
- * This is custom excpetion class
+ * This is custom exception class
  * 
- * @author Girish rajasekar
+ * @author Girish Rajasekar
  */
 public class SuperStockExcpetion extends Exception{
 

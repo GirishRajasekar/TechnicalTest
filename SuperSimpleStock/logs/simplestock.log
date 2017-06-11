@@ -1,0 +1,16 @@
+2017-04-19 11:42:18,635 [main] DEBUG SuperStockApp - SuperStockApp Application Main Method -- Start
+2017-04-19 11:42:18,637 [main] DEBUG TextFileProcesserImpl - Inside TextFileProcesserImpl processInputFile() Method -- Start
+2017-04-19 11:42:18,808 [main] DEBUG TextFileProcesserImpl - Inside TextFileProcesserImpl processInputFile() Method -- End
+2017-04-19 11:42:18,845 [main] DEBUG SuperStockApp - SuperStockApp Application Main Method -- End
+2017-04-19 11:42:44,575 [main] DEBUG SuperStockApp - SuperStockApp Application Main Method -- Start
+2017-04-19 11:42:44,577 [main] DEBUG TextFileProcesserImpl - Inside TextFileProcesserImpl processInputFile() Method -- Start
+2017-04-19 11:42:44,689 [main] DEBUG TextFileProcesserImpl - Inside TextFileProcesserImpl processInputFile() Method -- End
+2017-04-19 11:42:44,711 [main] DEBUG SuperStockApp - SuperStockApp Application Main Method -- End
+2017-04-19 11:43:14,995 [main] DEBUG SuperStockApp - SuperStockApp Application Main Method -- Start
+2017-04-19 11:43:14,999 [main] DEBUG TextFileProcesserImpl - Inside TextFileProcesserImpl processInputFile() Method -- Start
+2017-04-19 11:43:15,149 [main] DEBUG TextFileProcesserImpl - Inside TextFileProcesserImpl processInputFile() Method -- End
+2017-04-19 11:43:15,180 [main] DEBUG SuperStockApp - SuperStockApp Application Main Method -- End
+2017-04-19 11:43:38,445 [main] DEBUG SuperStockApp - SuperStockApp Application Main Method -- Start
+2017-04-19 11:43:38,448 [main] DEBUG TextFileProcesserImpl - Inside TextFileProcesserImpl processInputFile() Method -- Start
+2017-04-19 11:43:38,549 [main] DEBUG TextFileProcesserImpl - Inside TextFileProcesserImpl processInputFile() Method -- End
+2017-04-19 11:43:38,572 [main] DEBUG SuperStockApp - SuperStockApp Application Main Method -- End
